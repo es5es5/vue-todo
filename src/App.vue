@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TodoInput />
+    <TodoInput :item="todoText" @input="updateTodoText" />
   </div>
 </template>
 
@@ -12,6 +12,16 @@ export default Vue.extend({
   name: 'App',
   components: {
     TodoInput
+  },
+  data () {
+    return {
+      todoText: ''
+    }
+  },
+  methods: {
+    updateTodoText (value: any) {
+      this.todoText = value;
+    }
   }
 });
 </script>
