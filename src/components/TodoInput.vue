@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label for="todo-input"></label>
+    <label for="todo-input">오늘 할 일 :</label>
     <input type="text" name="todo-input" id="todo-input" :value="item" @input="handleInput">
     <button type="button" @click="addTodo">add</button>
   </div>
@@ -16,7 +16,7 @@
     ],
     methods: {
       addTodo () {
-        console.log('Add')
+        this.$emit('add')
       },
       handleInput (event: any) {
         event.target.value;
