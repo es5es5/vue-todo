@@ -11,16 +11,24 @@
 
   export default Vue.extend({
     name: 'TodoInput',
-    props: [
-      'item'
-    ],
+    props: {
+      item: {
+        type: String,
+        required: true,
+      }
+    },
     methods: {
       addTodo () {
         this.$emit('add')
       },
-      handleInput (event: any) {
-        event.target.value;
-        this.$emit('input', event.target.value)
+      handleInput (event: InputEvent) {
+        console.log(event)
+        if (event.target) {
+          const eventTarget = event.target as HTMLInputElement
+          this.$emit('input', eventTarget.value)
+        } else {
+          return
+        }
       }
     }
   })
