@@ -1,21 +1,51 @@
 <template>
   <div id="app">
-    <TodoInput :item="todoText" @input="updateTodoText" @add="addTodoItem" />
+    <TodoInput
+      :item="todoText"
+      @input="updateTodoText"
+      @add="addTodoItem"
+    />
+    <div>
+      <ul>
+        <TodoListItem />
+        <TodoListItem />
+        <TodoListItem />
+      </ul>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import TodoInput from './components/TodoInput.vue';
+import Vue from 'vue'
+import TodoInput from './components/TodoInput.vue'
+import TodoListItem from './components/TodoListItem.vue'
+
+const STORAGE_KEY = 'vue-todo-ts-v1'
+const storage = {
+  save (todoItems: any[]) {
+    const parsed = JSON.stringify(todoItems)
+    localStorage.setItem(STORAGE_KEY, parsed)
+  },
+  fetch () {
+    const todoItems = localStorage.getItem(STORAGE_KEY) || '[]'
+    const result = JSON.parse(todoItems)
+    return result
+  }
+}
 
 export default Vue.extend({
   name: 'App',
+  created () {
+    this.fetchTodoItems()
+  },
   components: {
-    TodoInput
+    TodoInput,
+    TodoListItem
   },
   data () {
     return {
-      todoText: ''
+      todoText: '',
+      todoItems: [] as any[],
     }
   },
   methods: {
@@ -24,11 +54,16 @@ export default Vue.extend({
     },
     addTodoItem () {
       const value = this.todoText
-      localStorage.setItem(value, value)
+      this.todoItems.push(value)
+      storage.save(this.todoItems)
+      // localStorage.setItem(value, value)
       this.initTodoText()
     },
     initTodoText () {
       this.todoText = ''
+    },
+    fetchTodoItems () {
+      this.todoItems = storage.fetch()
     }
   }
 });
