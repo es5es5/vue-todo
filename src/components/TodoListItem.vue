@@ -1,12 +1,24 @@
 <template>
-  <li>아이템1</li>
+  <li>
+    <span>{{ todoItem }}</span>
+    <button type="button" @click="removeItem">삭제</button>
+  </li>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
 
   export default Vue.extend({
-    name: 'TodoListItem'
+    name: 'TodoListItem',
+    props: {
+      todoItem: String,
+      index: Number,
+    },
+    methods: {
+      removeItem () {
+        this.$emit('remove', this.index)
+      },
+    }
   })
 </script>
 
