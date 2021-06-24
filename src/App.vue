@@ -71,16 +71,26 @@ export default Vue.extend({
       storage.save(this.todoItems)
       // localStorage.setItem(value, value)
       this.initTodoText()
+      this.fetchTodoItems()
     },
     initTodoText () {
       this.todoText = ''
     },
     fetchTodoItems () {
-      this.todoItems = storage.fetch()
+      this.todoItems = storage.fetch().sort((a: TodoItem, b: TodoItem) => {
+        if (a.title < b.title) {
+          return -1
+        } else if (a.title > b.title) {
+          return 1
+        } else {
+          return 0
+        }
+      })
     },
     removeItem (index: number) {
       this.todoItems.splice(index, 1)
       storage.save(this.todoItems)
+      this.fetchTodoItems()
     },
     toggleItem (item: TodoItem, index: number) {
       this.todoItems.splice(index, 1, {

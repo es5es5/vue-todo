@@ -1,6 +1,6 @@
 <template>
   <li>
-    <span class="item" :class="todoItem.done ? 'complete' : '' " @click="toggleItem">{{ todoItem.title }}</span>
+    <span class="item" :class="isComplete" @click="toggleItem">{{ todoItem.title }}</span>
     <button type="button" @click="removeItem">삭제</button>
   </li>
 </template>
@@ -14,6 +14,11 @@ export default Vue.extend({
   props: {
     todoItem: Object as PropType<TodoItem>,
     index: Number,
+  },
+  computed: {
+    isComplete (): string {
+      return this.todoItem.done ? 'complete' : ''
+    }
   },
   methods: {
     removeItem () {
