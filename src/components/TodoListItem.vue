@@ -1,6 +1,6 @@
 <template>
   <li>
-    <span class="item" @click="toggleItem">{{ todoItem }}</span>
+    <span class="item" :class="todoItem.done ? 'complete' : '' " @click="toggleItem">{{ todoItem.title }}</span>
     <button type="button" @click="removeItem">삭제</button>
   </li>
 </template>
@@ -31,7 +31,11 @@ export default Vue.extend({
   cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    color: cadetblue;
+  }
+
+  &.complete {
+    text-decoration: line-through;
   }
 }
 </style>
